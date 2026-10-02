@@ -1,4 +1,10 @@
+"use client";
+
+import Logo from "@/assets/svg/logo";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/toast";
+import { useGetMe, useLogout } from "@/hooks/auth.hook";
+import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 
 const Header = () => {
@@ -6,6 +12,31 @@ const Header = () => {
     { name: "Home", url: "/" },
     { name: "About", url: "/about" },
   ];
+
+  const { data, isLoading } = useGetMe();
+
+  const { mutate: logout } = useLogout();
+  const queryClient = useQueryClient();
+
+  const handleLogout = () => {
+    logout(undefined, {
+      onSuccess: () => {
+        toast.add({
+          title: "Logout Successfully",
+          description: "You have been logged out",
+          type: "success",
+        });
+        queryClient.removeQueries({ queryKey: ["user"] });
+      },
+      onError: () => {
+        toast.add({
+          title: "Logout Failed",
+          description: "Something went wrong, Please try again",
+          type: "error",
+        });
+      },
+    });
+  };
 
   return (
     <header className="w-full h-16 border border-b">
@@ -15,9 +46,7 @@ const Header = () => {
             href="/"
             className="inline-flex items-center gap-2 text-lg font-semibold tracking-tight"
           >
-            <div className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-              C
-            </div>
+            <Logo />
 
             <span>Complain & Service</span>
           </Link>
@@ -30,13 +59,25 @@ const Header = () => {
           ))}
         </nav>
         <div>
-          <Button
-            variant="outline"
-            render={<Link href="/login">Login</Link>}
-            nativeButton={false}
-          >
-            Login
-          </Button>
+          {!isLoading && !data && (
+            <Button
+              variant="outline"
+              render={<Link href="/login">Login</Link>}
+              nativeButton={false}
+            >
+              Login
+            </Button>
+          )}
+
+          {!isLoading && data && (
+            <Button
+              onClick={handleLogout}
+              className="cursor-pointer"
+              variant="destructive"
+            >
+              Logout
+            </Button>
+          )}
         </div>
       </div>
     </header>

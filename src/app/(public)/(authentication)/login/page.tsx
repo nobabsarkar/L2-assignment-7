@@ -1,3 +1,4 @@
+import Logo from "@/assets/svg/logo";
 import LoginForm from "@/components/form/login-form";
 import Link from "next/link";
 
@@ -10,9 +11,7 @@ const LoginPage = () => {
           href="/"
           className="inline-flex items-center gap-2 text-lg font-semibold tracking-tight"
         >
-          <div className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-            C
-          </div>
+          <Logo />
 
           <span>Complain & Service</span>
         </Link>

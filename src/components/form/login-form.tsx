@@ -7,14 +7,21 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
 import { LoginSchema } from "@/validation";
+import { useLogin } from "@/hooks/auth.hook";
+import { toast } from "../ui/toast";
+import { useRouter } from "next/navigation";
+import { Spinner } from "../ui/spinner";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+
+  const { mutate: login, isPending: loginPending } = useLogin();
 
   const form = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "superadmin@gmail.com",
+      password: "123456Aa@",
     },
 
     validators: {
@@ -22,7 +29,30 @@ const LoginForm = () => {
     },
 
     onSubmit: ({ value }) => {
-      console.log(value);
+      const loginData = {
+        email: value.email,
+        password: value.password,
+      };
+
+      login(loginData, {
+        onSuccess: (res) => {
+          toast.add({
+            title: "Login Success",
+            description: "Welcome back",
+            type: "success",
+          });
+          router.push("/");
+        },
+
+        onError: (err) => {
+          toast.add({
+            title: "Authorization failure",
+            description:
+              err.message || "something went wrong, Please try again",
+            type: "error",
+          });
+        },
+      });
     },
   });
 
@@ -98,8 +128,19 @@ const LoginForm = () => {
               );
             }}
           </form.Field>
-          <Button className="cursor-pointer" type="submit">
-            Login
+          <Button
+            disabled={loginPending}
+            className="cursor-pointer"
+            type="submit"
+          >
+            {loginPending ? (
+              <>
+                <Spinner />
+                Login...
+              </>
+            ) : (
+              "Login"
+            )}
           </Button>
         </FieldGroup>
       </form>
