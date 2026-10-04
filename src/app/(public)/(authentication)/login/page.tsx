@@ -13,7 +13,8 @@ const LoginPage = () => {
         >
           <Logo />
 
-          <span>Complain & Service</span>
+          <span>CityCare</span>
+          {/* <span>Complain & Service</span> */}
         </Link>
       </div>
 
@@ -28,7 +29,7 @@ const LoginPage = () => {
               Don't have an account?{" "}
               <Link
                 href="/register"
-                className="font-medium text-primary hover:underline"
+                className=" font-medium text-primary hover:underline"
               >
                 Create an account
               </Link>

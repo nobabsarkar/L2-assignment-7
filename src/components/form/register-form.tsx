@@ -10,11 +10,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useRegistration } from "@/hooks/auth.hook";
 import { toast } from "../ui/toast";
+import { RegistrationSchema } from "@/validation";
 
 const RegisterForm = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const defaultValues = {
     name: "Nobab",
@@ -26,6 +26,10 @@ const RegisterForm = () => {
 
   const form = useForm({
     defaultValues,
+
+    validators: {
+      onSubmit: RegistrationSchema,
+    },
 
     onSubmit: async ({ value }) => {
       const registrationData = {
@@ -192,7 +196,7 @@ const RegisterForm = () => {
         Already have an account?{" "}
         <Link
           href="/login"
-          className="font-medium underline underline-offset-4 hover:text-primary"
+          className=" font-medium text-primary hover:underline"
         >
           Login
         </Link>
