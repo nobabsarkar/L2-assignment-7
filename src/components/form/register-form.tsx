@@ -17,9 +17,9 @@ const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const defaultValues = {
-    name: "Nobab",
-    email: "nobab@gmail.com",
-    password: "123456Aa@",
+    name: "",
+    email: "",
+    password: "",
   };
 
   const { mutate: registration } = useRegistration();
