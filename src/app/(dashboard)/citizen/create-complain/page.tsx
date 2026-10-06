@@ -1,9 +1,9 @@
-const CitizenComplain = () => {
+const page = () => {
   return (
     <div>
-      <h1>This is citizen complain page</h1>
+      <h1>Complain</h1>
     </div>
   );
 };
 
-export default CitizenComplain;
+export default page;
