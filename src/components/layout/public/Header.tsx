@@ -9,15 +9,25 @@ import { Moon, Sun } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { UserRole } from "@/types/user.type";
 
 const Header = () => {
   const [mounted, setMounted] = useState(false);
+
+  const dashboardRoute: Record<UserRole, string> = {
+    SUPER_ADMIN: "/admin",
+    ADMIN: "/admin",
+    CITIZEN: "/citizen",
+    SERVICE_WORKER: "service-worker",
+  };
 
   const { data, isLoading } = useGetMe();
   const { mutate: logout } = useLogout();
   const queryClient = useQueryClient();
 
   const { theme, setTheme } = useTheme();
+
+  const role: UserRole = !!data?.data && data?.data?.role;
 
   useEffect(() => {
     setMounted(true);
@@ -102,6 +112,8 @@ const Header = () => {
               Login
             </Button>
           )}
+
+          {role && <Link href={dashboardRoute[role]}>Dashboard</Link>}
 
           {!isLoading && data && (
             <Button

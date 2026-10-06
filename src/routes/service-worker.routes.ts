@@ -9,6 +9,10 @@ export const serviceWorkerRoutes = [
         title: "Service Worker Routes",
         url: `${prefix}`,
       },
+      {
+        title: "Doctor Approval",
+        url: `${prefix}/approve-doctor`,
+      },
     ],
   },
 ];

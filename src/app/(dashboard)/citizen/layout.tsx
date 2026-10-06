@@ -6,8 +6,8 @@ import { ReactNode } from "react";
 
 const layout = ({ children }: { children: ReactNode }) => {
   return (
-    <RoleGuard roles={["CITEZEN"]}>
-      <DashboardShell role="CITEZEN">{children}</DashboardShell>
+    <RoleGuard roles={["CITIZEN"]}>
+      <DashboardShell role="CITIZEN">{children}</DashboardShell>
     </RoleGuard>
   );
 };

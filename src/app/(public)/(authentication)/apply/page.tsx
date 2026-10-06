@@ -9,7 +9,7 @@ export default function ApplyPage() {
           <Link href="/" className="flex items-center gap-2 font-medium">
             <div className="flex items-center gap-2">
               <Logo />
-              <span>PH Healthcare</span>
+              <span className="text-lg font-bold tracking-tight">CityCare</span>
             </div>
           </Link>
         </div>

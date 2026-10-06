@@ -2,16 +2,12 @@ const prefix = "/citezen";
 
 export const citezenRoutes = [
   {
-    title: "Citezen Routes",
+    title: "Citizen Dashboard",
     url: "#",
     items: [
       {
-        title: "Overview",
-        url: `${prefix}`,
-      },
-      {
-        title: "Doctor Approval",
-        url: `${prefix}/approve-doctor`,
+        title: "Create Complain",
+        url: `${prefix}/create-complain`,
       },
     ],
   },
