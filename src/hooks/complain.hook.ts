@@ -3,11 +3,17 @@ import {
   createComplain,
   singleComplain,
 } from "@/api/complain.api";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useComplain() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createComplain,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["complain"],
+      });
+    },
   });
 }
 

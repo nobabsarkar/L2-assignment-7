@@ -21,7 +21,7 @@ const AllComplain = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-[300px] items-center justify-center">
-        <p className="text-sm text-muted-foreground">Loading complaints...</p>
+        <p className="text-sm text-muted-foreground">Loading complains...</p>
       </div>
     );
   }
@@ -96,7 +96,7 @@ const AllComplain = () => {
 
                     <TableCell>
                       <Image
-                        src={item.imageUrl}
+                        src={item?.imageUrl || ""}
                         alt={item.title}
                         width={40}
                         height={40}

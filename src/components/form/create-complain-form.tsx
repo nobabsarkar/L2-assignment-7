@@ -23,9 +23,10 @@ import { useComplain } from "@/hooks/complain.hook";
 import { toast } from "../ui/toast";
 import { complainSchema } from "@/validation/complain.validation";
 import { useRouter } from "next/navigation";
+import { Spinner } from "../ui/spinner";
 
 const CreateComplainForm = () => {
-  const { mutate: createComplain } = useComplain();
+  const { mutate: createComplain, isPending } = useComplain();
   const router = useRouter();
 
   const form = useForm({
@@ -47,12 +48,12 @@ const CreateComplainForm = () => {
         description: value.description,
         location: value.location,
         price: Number(value.price),
+        imageUrl: "",
         image: value.image[0],
       };
 
       createComplain(complainData, {
         onSuccess: (res) => {
-          console.log(res);
           toast.add({
             title: "Complain Created Successfull",
             description: "Well Done",
@@ -396,7 +397,14 @@ const CreateComplainForm = () => {
                 </Button>
 
                 <Button type="submit" size="lg" className="cursor-pointer">
-                  Submit Complain
+                  {isPending ? (
+                    <>
+                      <Spinner />
+                      Submit Complain...
+                    </>
+                  ) : (
+                    "Submit Complain"
+                  )}
                 </Button>
               </div>
             </form>

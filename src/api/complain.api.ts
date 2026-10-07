@@ -5,8 +5,8 @@ export function createComplain(payload: ComplainPayload) {
   const formData = new FormData();
 
   formData.append("data", JSON.stringify(payload));
-  if (payload.imageUrl) {
-    formData.append("image", payload.imageUrl);
+  if (payload.image) {
+    formData.append("image", payload.image);
   }
 
   return apiClient("/complains/create-complain", {

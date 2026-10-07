@@ -4,6 +4,6 @@ export interface ComplainPayload {
   description: string;
   location: string;
   price: number;
-  // image: File;
-  imageUrl: string;
+  image: File;
+  imageUrl?: string;
 }

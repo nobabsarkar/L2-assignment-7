@@ -11,6 +11,7 @@ import { useLogin } from "@/hooks/auth.hook";
 import { toast } from "../ui/toast";
 import { useRouter } from "next/navigation";
 import { Spinner } from "../ui/spinner";
+import { useQueryClient } from "@tanstack/react-query";
 
 const demoAccounts = [
   {
@@ -37,6 +38,8 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
+  const queryClient = useQueryClient();
+
   const { mutate: login, isPending: loginPending } = useLogin();
 
   const form = useForm({
@@ -56,7 +59,9 @@ const LoginForm = () => {
       };
 
       login(loginData, {
-        onSuccess: () => {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({ queryKey: ["user"] });
+
           toast.add({
             title: "Login Success",
             description: "Welcome back",
@@ -64,6 +69,7 @@ const LoginForm = () => {
           });
 
           router.push("/");
+          router.refresh();
         },
 
         onError: (err) => {

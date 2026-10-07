@@ -18,16 +18,21 @@ const Header = () => {
     SUPER_ADMIN: "/admin",
     ADMIN: "/admin",
     CITIZEN: "/citizen",
-    SERVICE_WORKER: "service-worker",
+    SERVICE_WORKER: "/service-worker",
   };
 
   const { data, isLoading } = useGetMe();
+
   const { mutate: logout } = useLogout();
   const queryClient = useQueryClient();
 
   const { theme, setTheme } = useTheme();
 
-  const role: UserRole = !!data?.data && data?.data?.role;
+  const user = data?.data;
+
+  const role: UserRole = user?.role;
+
+  // const role: UserRole = !!data?.data && data?.data?.role;
 
   useEffect(() => {
     setMounted(true);
@@ -42,9 +47,10 @@ const Header = () => {
           type: "success",
         });
 
-        queryClient.removeQueries({
-          queryKey: ["user"],
-        });
+        // queryClient.removeQueries({
+        //   queryKey: ["user"],
+        // });
+        queryClient.setQueryData(["user"], null);
       },
 
       onError: () => {
@@ -102,7 +108,7 @@ const Header = () => {
           )}
 
           {/* Login / Logout */}
-          {!isLoading && !data && (
+          {!isLoading && !user && (
             <Button
               variant="outline"
               render={<Link href="/login">Login</Link>}
@@ -115,7 +121,7 @@ const Header = () => {
 
           {role && <Link href={dashboardRoute[role]}>Dashboard</Link>}
 
-          {!isLoading && data && (
+          {!isLoading && user && (
             <Button
               onClick={handleLogout}
               variant="destructive"
