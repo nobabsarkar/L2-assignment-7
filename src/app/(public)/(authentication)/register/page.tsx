@@ -13,8 +13,13 @@ const RegisterPage = () => {
             className="inline-flex items-center gap-2 text-lg font-semibold tracking-tight"
           >
             <Logo />
-            <span>CityCare</span>
-            {/* <span>Complain & Service</span> */}
+            <div className="flex flex-col">
+              <span className="text-lg font-bold tracking-tight">CityCare</span>
+
+              <span className="hidden text-[10px] leading-none text-muted-foreground sm:block">
+                Smart City Services
+              </span>
+            </div>
           </Link>
         </div>
 
