@@ -19,19 +19,56 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useComplain } from "@/hooks/complain.hook";
+import { toast } from "../ui/toast";
+import { complainSchema } from "@/validation/complain.validation";
+import { useRouter } from "next/navigation";
 
 const CreateComplainForm = () => {
+  const { mutate: createComplain } = useComplain();
+  const router = useRouter();
+
   const form = useForm({
     defaultValues: {
       title: "",
       description: "",
       location: "",
       price: "",
-      additionalFiles: [] as File[],
+      image: [] as File[],
+    },
+
+    validators: {
+      onSubmit: complainSchema,
     },
 
     onSubmit: async ({ value }) => {
-      console.log(value);
+      const complainData = {
+        title: value.title,
+        description: value.description,
+        location: value.location,
+        price: Number(value.price),
+        image: value.image[0],
+      };
+
+      createComplain(complainData, {
+        onSuccess: (res) => {
+          console.log(res);
+          toast.add({
+            title: "Complain Created Successfull",
+            description: "Well Done",
+            type: "success",
+          });
+          router.push("/citizen/all-complain");
+        },
+        onError: (err) => {
+          toast.add({
+            title: "Complain failure",
+            description:
+              err.message || "something went wrong, Please try again",
+            type: "error",
+          });
+        },
+      });
     },
   });
 
@@ -223,7 +260,7 @@ const CreateComplainForm = () => {
                 </div>
 
                 {/* Upload Section */}
-                <form.Field name="additionalFiles">
+                <form.Field name="image">
                   {(field) => {
                     const isInvalid =
                       field.state.meta.isTouched && !field.state.meta.isValid;
@@ -263,20 +300,31 @@ const CreateComplainForm = () => {
                             <input
                               id="additional-file-field"
                               type="file"
-                              multiple
                               accept="image/*"
                               className="sr-only"
                               name={field.name}
-                              onChange={(e) => {
-                                const incoming = Array.from(
-                                  e.target.files ?? [],
-                                );
+                              //   onChange={(e) => {
+                              //     const incoming = Array.from(
+                              //       e.target.files ?? [],
+                              //     );
 
-                                if (incoming.length === 0) {
+                              //     if (incoming.length === 0) {
+                              //       return;
+                              //     }
+
+                              //     field.handleChange([...files, ...incoming]);
+
+                              //     field.handleBlur();
+                              //     e.target.value = "";
+                              //   }}
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+
+                                if (!file) {
                                   return;
                                 }
 
-                                field.handleChange([...files, ...incoming]);
+                                field.handleChange([file]);
 
                                 field.handleBlur();
                                 e.target.value = "";
@@ -348,7 +396,7 @@ const CreateComplainForm = () => {
                 </Button>
 
                 <Button type="submit" size="lg" className="cursor-pointer">
-                  Submit Complaint
+                  Submit Complain
                 </Button>
               </div>
             </form>

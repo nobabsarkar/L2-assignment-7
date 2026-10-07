@@ -40,15 +40,23 @@ export function DashboardSidebar({ role }: { role: UserRole }) {
         <Link
           href="/"
           className="
-            flex h-12 items-center gap-2 rounded-lg px-2
+            flex h-12 w-full items-center gap-2
+            overflow-hidden rounded-lg px-2
             transition-colors
             hover:bg-sidebar-accent
             hover:text-sidebar-accent-foreground
+            group-data-[collapsible=icon]:justify-center
+            group-data-[collapsible=icon]:px-0
           "
         >
           <Logo />
 
-          <span className="text-lg font-bold tracking-tight group-data-[collapsible=icon]:hidden">
+          <span
+            className="
+              truncate text-lg font-bold tracking-tight
+              group-data-[collapsible=icon]:hidden
+            "
+          >
             CityCare
           </span>
         </Link>
@@ -58,6 +66,7 @@ export function DashboardSidebar({ role }: { role: UserRole }) {
       <SidebarContent className="px-2 py-4">
         {routes.map((group) => (
           <SidebarGroup key={group.title} className="p-0">
+            {/* Group title */}
             <SidebarGroupLabel
               className="
                 mb-2 px-2
@@ -73,21 +82,20 @@ export function DashboardSidebar({ role }: { role: UserRole }) {
             </SidebarGroupLabel>
 
             <SidebarGroupContent>
-              <SidebarMenu className="gap-1">
+              <SidebarMenu className="w-full gap-1">
                 {group.items.map((item) => {
                   const isActive =
                     pathname === item.url ||
                     pathname.startsWith(`${item.url}/`);
 
                   return (
-                    <SidebarMenuItem key={item.title}>
+                    <SidebarMenuItem key={item.title} className="w-full">
                       <SidebarMenuButton
-                        render={<Link href={item.url} />}
                         isActive={isActive}
                         tooltip={item.title}
                         className="
-                        cursor-pointer
-                          h-10
+                          h-10 w-full
+                          cursor-pointer
                           rounded-lg
                           px-3
                           transition-all
@@ -109,14 +117,27 @@ export function DashboardSidebar({ role }: { role: UserRole }) {
                           data-[active=true]:hover:bg-primary
                           data-[active=true]:hover:text-primary-foreground
 
-                          /* Collapsed sidebar */
+                          /* Collapsed */
                           group-data-[collapsible=icon]:justify-center
                           group-data-[collapsible=icon]:px-0
                         "
                       >
-                        {/* <Link href={item.url} className="truncate font-medium"> */}
-                        {item.title}
-                        {/* </Link> */}
+                        <Link
+                          href={item.url}
+                          className="
+                            flex w-full items-center
+                            overflow-hidden
+                          "
+                        >
+                          <span
+                            className="
+                              truncate font-medium
+                              group-data-[collapsible=icon]:hidden
+                            "
+                          >
+                            {item.title}
+                          </span>
+                        </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   );
