@@ -1,6 +1,6 @@
 import { LoaderIcon } from "lucide-react";
 
-const AuthLoading = ({ label = "Verify account" }: { label?: string }) => {
+const AuthLoading = ({ label = "Loading..." }: { label?: string }) => {
   return (
     <div className="w-ful h-screen flex justify-center items-center">
       <div className="flex gap-1">

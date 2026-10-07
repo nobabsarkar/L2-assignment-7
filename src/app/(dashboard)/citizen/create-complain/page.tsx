@@ -1,9 +1,11 @@
-const page = () => {
+import CreateComplainForm from "@/components/form/create-complain-form";
+
+const CreateComplain = () => {
   return (
     <div>
-      <h1>Complain</h1>
+      <CreateComplainForm />
     </div>
   );
 };
 
-export default page;
+export default CreateComplain;
