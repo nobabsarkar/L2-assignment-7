@@ -2,7 +2,9 @@ import {
   allComplain,
   createComplain,
   singleComplain,
+  updateComplain,
 } from "@/api/complain.api";
+import { TUpdateComplainPayload } from "@/types/complain.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useComplain() {
@@ -30,5 +32,25 @@ export function useSingleComplain(id: string) {
     queryKey: ["complain", id],
     queryFn: () => singleComplain(id),
     enabled: !!id,
+  });
+}
+
+export function useUpdateComplain() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: TUpdateComplainPayload;
+    }) => updateComplain(id, payload),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["complain"],
+      });
+    },
   });
 }

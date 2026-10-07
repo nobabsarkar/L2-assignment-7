@@ -129,10 +129,11 @@ const AllComplain = () => {
 
                     {/* Update */}
                     <TableCell className="text-center">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="
+                      <Link href={`/citizen/all-complain/update/${item.id}`}>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="
                         cursor-pointer
                           border-amber-200
                           text-amber-600
@@ -142,10 +143,11 @@ const AllComplain = () => {
                           dark:text-amber-400
                           dark:hover:bg-amber-950
                         "
-                      >
-                        <Pencil className="mr-1.5 size-4" />
-                        Update
-                      </Button>
+                        >
+                          <Pencil className="mr-1.5 size-4" />
+                          Update
+                        </Button>
+                      </Link>
                     </TableCell>
 
                     {/* Delete */}

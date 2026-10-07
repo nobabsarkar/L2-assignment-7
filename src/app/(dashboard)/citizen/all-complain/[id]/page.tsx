@@ -65,7 +65,7 @@ const ComplainDetailsPage = () => {
       <div className="overflow-hidden rounded-2xl border bg-card shadow-sm">
         {/* Image */}
         <div className="relative h-72 w-full">
-          {complain.imageUrl ? (
+          {complain?.imageUrl ? (
             <Image
               src={complain.imageUrl}
               alt={complain.title}
@@ -88,7 +88,7 @@ const ComplainDetailsPage = () => {
                 <TicketsPlaneIcon className="size-4" />
                 Title
               </div>
-              <p className="font-medium">{complain.title}</p>
+              <p className="font-medium">{complain?.title}</p>
             </div>
 
             <div className="rounded-xl border bg-muted/30 p-4">
@@ -97,7 +97,7 @@ const ComplainDetailsPage = () => {
                 Description
               </div>
 
-              <p className="font-medium">{complain.description}</p>
+              <p className="font-medium">{complain?.description}</p>
             </div>
             <div className="rounded-xl border bg-muted/30 p-4">
               <div className="mb-2 flex items-center gap-1 text-sm text-muted-foreground">
@@ -105,7 +105,7 @@ const ComplainDetailsPage = () => {
                 Price
               </div>
 
-              <p className="font-medium">${complain.price}</p>
+              <p className="font-medium">${complain?.price}</p>
             </div>
             <div className="rounded-xl border bg-muted/30 p-4">
               <div className="mb-2 flex items-center gap-1 text-sm text-muted-foreground">
@@ -113,7 +113,7 @@ const ComplainDetailsPage = () => {
                 Location
               </div>
 
-              <p className="font-medium">{complain.location}</p>
+              <p className="font-medium">{complain?.location}</p>
             </div>
           </div>
         </div>

@@ -7,3 +7,11 @@ export interface ComplainPayload {
   image: File;
   imageUrl?: string;
 }
+
+export type TUpdateComplainPayload = {
+  title: string;
+  description: string;
+  location: string;
+  price: number;
+  image?: File[];
+};

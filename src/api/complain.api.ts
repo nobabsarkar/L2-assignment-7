@@ -1,5 +1,5 @@
 import apiClient from "@/lib/apiClient";
-import { ComplainPayload } from "@/types/complain.type";
+import { ComplainPayload, TUpdateComplainPayload } from "@/types/complain.type";
 
 export function createComplain(payload: ComplainPayload) {
   const formData = new FormData();
@@ -21,4 +21,11 @@ export function allComplain() {
 
 export function singleComplain(id: string) {
   return apiClient(`/complains/${id}`);
+}
+
+export function updateComplain(id: string, payload: TUpdateComplainPayload) {
+  return apiClient(`/complains/${id}`, {
+    method: "PATCH",
+    body: payload,
+  });
 }
