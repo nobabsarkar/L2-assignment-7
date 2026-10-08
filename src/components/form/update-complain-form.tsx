@@ -18,16 +18,12 @@ import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 import { useSingleComplain, useUpdateComplain } from "@/hooks/complain.hook";
 import { useEffect } from "react";
-
 import { toast } from "../ui/toast";
-
 import { Spinner } from "../ui/spinner";
 
 const UpdateComplainForm = () => {
   const params = useParams();
-
   const id = params.id as string;
-
   const { data, isLoading } = useSingleComplain(id);
 
   const { mutate: updateData, isPending } = useUpdateComplain();
@@ -83,7 +79,10 @@ const UpdateComplainForm = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-full items-center justify-center">
-        <p className="text-sm text-muted-foreground">Loading complain...</p>
+        <p className="text-sm text-muted-foreground">
+          {" "}
+          <Spinner /> Loading...
+        </p>
       </div>
     );
   }

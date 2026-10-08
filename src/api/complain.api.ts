@@ -29,3 +29,9 @@ export function updateComplain(id: string, payload: TUpdateComplainPayload) {
     body: payload,
   });
 }
+
+export function deleteComplain(id: string) {
+  return apiClient(`/complains/${id}`, {
+    method: "DELETE",
+  });
+}

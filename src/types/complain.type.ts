@@ -1,5 +1,5 @@
 export interface ComplainPayload {
-  id?: string;
+  id: string;
   title: string;
   description: string;
   location: string;

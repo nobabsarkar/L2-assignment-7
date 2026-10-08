@@ -1,6 +1,7 @@
 import {
   allComplain,
   createComplain,
+  deleteComplain,
   singleComplain,
   updateComplain,
 } from "@/api/complain.api";
@@ -46,6 +47,20 @@ export function useUpdateComplain() {
       id: string;
       payload: TUpdateComplainPayload;
     }) => updateComplain(id, payload),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["complain"],
+      });
+    },
+  });
+}
+
+export function useDeleteComplain() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id }: { id: string }) => deleteComplain(id),
 
     onSuccess: () => {
       queryClient.invalidateQueries({
