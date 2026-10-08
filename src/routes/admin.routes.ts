@@ -9,6 +9,10 @@ export const adminRoutes = [
         url: `${prefix}`,
       },
       {
+        title: "Users",
+        url: `${prefix}/users`,
+      },
+      {
         title: "All Complain",
         url: `${prefix}/all-complain`,
       },

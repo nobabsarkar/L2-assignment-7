@@ -16,3 +16,11 @@ export type TUpdateComplainPayload = {
   price: number;
   image?: File[];
 };
+
+export type TUsers = {
+  id: string;
+  name: string;
+  email: string;
+  status: string;
+  role: string;
+};

@@ -25,7 +25,7 @@ import {
   useAdminUpdateStatus,
 } from "@/hooks/complain.hook";
 import { ComplainPayload } from "@/types/complain.type";
-import { Eye } from "lucide-react";
+import { Check, Eye, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -35,7 +35,10 @@ const AdminGetAllComplain = () => {
 
   const { mutate: updateStatus, isPending } = useAdminUpdateStatus();
 
-  const [approveId, setApproveId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<
+    "APPROVED" | "REJECTED" | null
+  >(null);
 
   if (isLoading) {
     return (
@@ -58,26 +61,31 @@ const AdminGetAllComplain = () => {
 
   const complains = data?.data ?? [];
 
-  const handleApproveClick = (id: string) => {
-    setApproveId(id);
+  // Open confirmation dialog
+  const handleStatusClick = (id: string, status: "APPROVED" | "REJECTED") => {
+    setSelectedId(id);
+    setSelectedStatus(status);
   };
 
-  const handleConfirmApprove = () => {
-    if (!approveId) return;
+  // Confirm status update
+  const handleConfirmStatus = () => {
+    if (!selectedId || !selectedStatus) return;
 
     updateStatus(
       {
-        id: approveId,
-        status: "APPROVED",
+        id: selectedId,
+        status: selectedStatus,
       },
       {
         onSuccess: (data) => {
           console.log("SUCCESS:", data);
-          setApproveId(null);
+
+          setSelectedId(null);
+          setSelectedStatus(null);
         },
+
         onError: (error) => {
           console.log("ERROR:", error);
-          setApproveId(null);
         },
       },
     );
@@ -115,8 +123,8 @@ const AdminGetAllComplain = () => {
                   Status
                 </TableHead>
 
-                <TableHead className="min-w-[140px] text-center font-semibold">
-                  Approve Status
+                <TableHead className="min-w-[180px] text-center font-semibold">
+                  Action
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -178,7 +186,7 @@ const AdminGetAllComplain = () => {
                     {/* Status */}
                     <TableCell className="text-center">
                       <span
-                        className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${
+                        className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
                           item.status === "PENDING"
                             ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-400"
                             : item.status === "APPROVED"
@@ -192,33 +200,84 @@ const AdminGetAllComplain = () => {
                       </span>
                     </TableCell>
 
-                    {/* Approve */}
-                    <TableCell className="text-center">
-                      {item.status === "APPROVED" ? (
-                        <span className="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-950 dark:text-green-400">
-                          Approved
-                        </span>
-                      ) : (
-                        <Button
-                          onClick={() => handleApproveClick(item.id)}
-                          size="sm"
-                          variant="outline"
-                          className="
-                            cursor-pointer
-                            border-blue-200
-                            text-blue-600
-                            hover:bg-blue-50
-                            hover:text-blue-700
-                            dark:border-blue-900
-                            dark:text-blue-400
-                            dark:hover:bg-blue-950
-                          "
-                          disabled={isPending && approveId === item.id}
-                        >
-                          {isPending && approveId === item.id
-                            ? "Approving..."
-                            : "Approve"}
-                        </Button>
+                    {/* Action */}
+                    <TableCell>
+                      {item.status === "PENDING" && (
+                        <div className="flex items-center justify-center gap-2">
+                          {/* Approve */}
+                          <Button
+                            onClick={() =>
+                              handleStatusClick(item.id, "APPROVED")
+                            }
+                            size="sm"
+                            variant="outline"
+                            disabled={isPending && selectedId === item.id}
+                            className="
+                              cursor-pointer
+                              border-green-200
+                              text-green-600
+                              hover:bg-green-50
+                              hover:text-green-700
+                              dark:border-green-900
+                              dark:text-green-400
+                              dark:hover:bg-green-950
+                            "
+                          >
+                            <Check className="mr-1.5 size-4" />
+
+                            {isPending &&
+                            selectedId === item.id &&
+                            selectedStatus === "APPROVED"
+                              ? "Approving..."
+                              : "Approve"}
+                          </Button>
+
+                          {/* Reject */}
+                          <Button
+                            onClick={() =>
+                              handleStatusClick(item.id, "REJECTED")
+                            }
+                            size="sm"
+                            variant="outline"
+                            disabled={isPending && selectedId === item.id}
+                            className="
+                              cursor-pointer
+                              border-red-200
+                              text-red-600
+                              hover:bg-red-50
+                              hover:text-red-700
+                              dark:border-red-900
+                              dark:text-red-400
+                              dark:hover:bg-red-950
+                            "
+                          >
+                            <X className="mr-1.5 size-4" />
+
+                            {isPending &&
+                            selectedId === item.id &&
+                            selectedStatus === "REJECTED"
+                              ? "Rejecting..."
+                              : "Reject"}
+                          </Button>
+                        </div>
+                      )}
+
+                      {item.status === "APPROVED" && (
+                        <div className="flex justify-center">
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700 dark:bg-green-950 dark:text-green-400">
+                            <Check className="size-3.5" />
+                            Approved
+                          </span>
+                        </div>
+                      )}
+
+                      {item.status === "REJECTED" && (
+                        <div className="flex justify-center">
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700 dark:bg-red-950 dark:text-red-400">
+                            <X className="size-3.5" />
+                            Rejected
+                          </span>
+                        </div>
                       )}
                     </TableCell>
                   </TableRow>
@@ -238,24 +297,28 @@ const AdminGetAllComplain = () => {
         </div>
       </div>
 
-      {/* Approve Confirmation Dialog */}
+      {/* Confirmation Dialog */}
       <AlertDialog
-        open={!!approveId}
+        open={!!selectedId}
         onOpenChange={(open) => {
           if (!open && !isPending) {
-            setApproveId(null);
+            setSelectedId(null);
+            setSelectedStatus(null);
           }
         }}
       >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to approve this complain?
+              {selectedStatus === "APPROVED"
+                ? "Approve this complain?"
+                : "Reject this complain?"}
             </AlertDialogTitle>
 
             <AlertDialogDescription>
-              Once approved, this complain will be marked as approved and the
-              citizen can continue with the next step.
+              {selectedStatus === "APPROVED"
+                ? "Are you sure you want to approve this complain? Once approved, the complain will move to the next stage."
+                : "Are you sure you want to reject this complain? This action will mark the complain as rejected."}
             </AlertDialogDescription>
           </AlertDialogHeader>
 
@@ -265,11 +328,21 @@ const AdminGetAllComplain = () => {
             </AlertDialogCancel>
 
             <AlertDialogAction
-              className="cursor-pointer"
-              onClick={handleConfirmApprove}
+              onClick={handleConfirmStatus}
               disabled={isPending}
+              className={
+                selectedStatus === "APPROVED"
+                  ? "cursor-pointer bg-green-600 hover:bg-green-700"
+                  : "cursor-pointer bg-red-600 hover:bg-red-700"
+              }
             >
-              {isPending ? "Approving..." : "Yes, Approve"}
+              {isPending
+                ? selectedStatus === "APPROVED"
+                  ? "Approving..."
+                  : "Rejecting..."
+                : selectedStatus === "APPROVED"
+                  ? "Yes, Approve Complain"
+                  : "Yes, Reject Complain"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
