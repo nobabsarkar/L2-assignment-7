@@ -6,6 +6,7 @@ export interface ComplainPayload {
   price: number;
   image: File;
   imageUrl?: string;
+  status: string;
 }
 
 export type TUpdateComplainPayload = {

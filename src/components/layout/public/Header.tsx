@@ -10,9 +10,11 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { UserRole } from "@/types/user.type";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [mounted, setMounted] = useState(false);
+  const router = useRouter();
 
   const dashboardRoute: Record<UserRole, string> = {
     SUPER_ADMIN: "/admin",
@@ -46,6 +48,7 @@ const Header = () => {
           description: "You have been logged out",
           type: "success",
         });
+        router.push("/login");
 
         // queryClient.removeQueries({
         //   queryKey: ["user"],

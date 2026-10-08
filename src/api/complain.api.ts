@@ -35,3 +35,20 @@ export function deleteComplain(id: string) {
     method: "DELETE",
   });
 }
+
+export function adminGetAllComplain() {
+  return apiClient("/complains/admin-get-all-complains");
+}
+
+export function adminGetSingleData(id: string) {
+  return apiClient(`/complains/${id}`);
+}
+
+export function adminUpdateStatus(id: string, status: string) {
+  return apiClient(`/complains/admin-update-status/${id}`, {
+    method: "PATCH",
+    body: {
+      status,
+    },
+  });
+}

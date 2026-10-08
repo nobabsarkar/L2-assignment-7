@@ -1,4 +1,7 @@
 import {
+  adminGetAllComplain,
+  adminGetSingleData,
+  adminUpdateStatus,
   allComplain,
   createComplain,
   deleteComplain,
@@ -61,6 +64,37 @@ export function useDeleteComplain() {
 
   return useMutation({
     mutationFn: ({ id }: { id: string }) => deleteComplain(id),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["complain"],
+      });
+    },
+  });
+}
+
+export function useAdminGetAllComplain() {
+  return useQuery({
+    queryKey: ["complain"],
+    queryFn: adminGetAllComplain,
+    retry: false,
+  });
+}
+
+export function useAdminSingleComplain(id: string) {
+  return useQuery({
+    queryKey: ["complain", id],
+    queryFn: () => adminGetSingleData(id),
+    enabled: !!id,
+  });
+}
+
+export function useAdminUpdateStatus() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, status }: { id: string; status: string }) =>
+      adminUpdateStatus(id, status),
 
     onSuccess: () => {
       queryClient.invalidateQueries({

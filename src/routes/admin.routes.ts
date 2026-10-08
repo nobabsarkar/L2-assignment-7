@@ -2,12 +2,15 @@ const prefix = "/admin";
 
 export const adminRoutes = [
   {
-    title: "Admin Route",
-    url: "#",
+    title: "Admin Dashboard",
     items: [
       {
-        title: "Overview",
+        title: "Home",
         url: `${prefix}`,
+      },
+      {
+        title: "All Complain",
+        url: `${prefix}/all-complain`,
       },
     ],
   },
