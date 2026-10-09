@@ -1,8 +1,10 @@
+import ApproveData from "@/components/(admin)/approve-complain/page";
+
 const ApproveComplainPage = () => {
   return (
-    <div>
-      <h1>Approve complain</h1>
-    </div>
+    <>
+      <ApproveData />
+    </>
   );
 };
 
