@@ -16,6 +16,10 @@ export const citezenRoutes = [
         title: "All Complain",
         url: `${prefix}/all-complain`,
       },
+      {
+        title: "Approve Complain",
+        url: `${prefix}/approve-complain`,
+      },
     ],
   },
 ];
