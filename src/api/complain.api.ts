@@ -5,7 +5,7 @@ import {
   TUpdateComplainPayload,
 } from "@/types/complain.type";
 
-export function createComplain(payload: ComplainPayload) {
+export function createComplain(payload: any) {
   const formData = new FormData();
 
   formData.append("data", JSON.stringify(payload));
