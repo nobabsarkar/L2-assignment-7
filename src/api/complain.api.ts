@@ -69,3 +69,9 @@ export function getUserPayments() {
     method: "GET",
   });
 }
+
+export function adminGetAllPayments() {
+  return apiClient("/payments/get-all-payments", {
+    method: "GET",
+  });
+}

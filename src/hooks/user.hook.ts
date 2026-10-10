@@ -1,4 +1,8 @@
-import { createPayment, getUserPayments } from "@/api/complain.api";
+import {
+  adminGetAllPayments,
+  createPayment,
+  getUserPayments,
+} from "@/api/complain.api";
 import { allUsers, updateUserRole } from "@/api/user.api";
 import { UserRole } from "@/types/user.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -49,5 +53,12 @@ export function useGetUserPayments() {
   return useQuery({
     queryKey: ["user-payments"],
     queryFn: getUserPayments,
+  });
+}
+
+export function useGetAllPayments() {
+  return useQuery({
+    queryKey: ["get-all-payments"],
+    queryFn: adminGetAllPayments,
   });
 }
