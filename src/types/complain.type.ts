@@ -24,3 +24,7 @@ export type TUsers = {
   status: string;
   role: string;
 };
+
+export type TCreatePaymentPayload = {
+  payment: string;
+};

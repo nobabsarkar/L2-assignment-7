@@ -19,14 +19,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Loader2, CreditCard, FileText } from "lucide-react";
+import { useCreatePayment } from "@/hooks/user.hook";
 
 const ApproveData = () => {
   const { data, isPending } = useGetAllComplain();
 
+  const { mutate: payments } = useCreatePayment();
+
   const complains = data?.data ?? [];
 
   const handlePayNow = (complainId: string) => {
-    console.log("Pay for complain:", complainId);
+    payments({
+      payment: complainId,
+    });
   };
 
   if (isPending) {
@@ -118,6 +123,7 @@ const ApproveData = () => {
                       <TableCell className="text-right">
                         {complain.status === "APPROVED" ? (
                           <Button
+                            className="cursor-pointer"
                             size="sm"
                             onClick={() => handlePayNow(complain.id)}
                             disabled={Number(complain.price) <= 0}

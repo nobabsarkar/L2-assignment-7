@@ -1,5 +1,9 @@
 import apiClient from "@/lib/apiClient";
-import { ComplainPayload, TUpdateComplainPayload } from "@/types/complain.type";
+import {
+  ComplainPayload,
+  TCreatePaymentPayload,
+  TUpdateComplainPayload,
+} from "@/types/complain.type";
 
 export function createComplain(payload: ComplainPayload) {
   const formData = new FormData();
@@ -50,5 +54,18 @@ export function adminUpdateStatus(id: string, status: string) {
     body: {
       status,
     },
+  });
+}
+
+export function createPayment(payload: TCreatePaymentPayload) {
+  return apiClient("/payments/create-payment", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function getUserPayments() {
+  return apiClient("/payments/user-payments", {
+    method: "GET",
   });
 }
