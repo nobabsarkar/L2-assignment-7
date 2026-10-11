@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetAllPayments, useGetUserPayments } from "@/hooks/user.hook";
+import { useGetAllPayments } from "@/hooks/user.hook";
 import {
   Table,
   TableBody,
@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CreditCard, ReceiptText, RefreshCw } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
+import DialogPage from "@/components/dialog/page";
 
 const Payments = () => {
   const {
@@ -44,14 +45,17 @@ const Payments = () => {
       case "COMPLETED":
       case "VALID":
         return "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-400";
+
       case "PENDING":
       case "INITIATED":
         return "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-400";
+
       case "FAILED":
       case "CANCELLED":
       case "CANCELED":
       case "INVALID":
         return "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-400";
+
       default:
         return "border-border bg-muted text-muted-foreground";
     }
@@ -72,11 +76,18 @@ const Payments = () => {
     return (
       <div className="flex flex-col items-center justify-center gap-3 rounded-xl border p-8 text-center">
         <CreditCard className="size-10 text-muted-foreground" />
+
         <h2 className="font-semibold">Unable to load payments</h2>
+
         <p className="text-sm text-muted-foreground">
           Please check your connection and try again.
         </p>
-        <Button variant="outline" onClick={() => refetch()}>
+
+        <Button
+          variant="outline"
+          className="cursor-pointer"
+          onClick={() => refetch()}
+        >
           <RefreshCw className="mr-2 size-4" />
           Try Again
         </Button>
@@ -86,7 +97,6 @@ const Payments = () => {
 
   return (
     <div className="mx-auto w-full max-w-7xl space-y-6 p-4 sm:p-6 lg:p-8">
-      {/* Payment Table */}
       <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
         <div className="border-b px-5 py-4">
           <h2 className="font-semibold">Your Transactions</h2>
@@ -97,7 +107,9 @@ const Payments = () => {
             <div className="mb-4 flex size-14 items-center justify-center rounded-full bg-muted">
               <ReceiptText className="size-7 text-muted-foreground" />
             </div>
+
             <h3 className="font-semibold">No payments yet</h3>
+
             <p className="mt-2 max-w-sm text-sm text-muted-foreground">
               Your payment transactions will appear here after you make a
               payment.
@@ -115,6 +127,7 @@ const Payments = () => {
                   <TableHead className="whitespace-nowrap">
                     Payment Date
                   </TableHead>
+                  <TableHead className="whitespace-nowrap">Action</TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -158,6 +171,10 @@ const Payments = () => {
                         {payment.createdAt
                           ? formatDate(payment.createdAt)
                           : "—"}
+                      </TableCell>
+
+                      <TableCell>
+                        <DialogPage />
                       </TableCell>
                     </TableRow>
                   ),
