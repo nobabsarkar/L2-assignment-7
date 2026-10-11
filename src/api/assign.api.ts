@@ -9,3 +9,7 @@ export function serviceWorkerAssign(payload: {
     body: payload,
   });
 }
+
+export function getAssignData() {
+  return apiClient("/assigns/service-wroker-assign");
+}

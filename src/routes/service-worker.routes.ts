@@ -6,12 +6,12 @@ export const serviceWorkerRoutes = [
     url: "#",
     items: [
       {
-        title: "Service Worker Routes",
+        title: "Home",
         url: `${prefix}`,
       },
       {
-        title: "Doctor Approval",
-        url: `${prefix}/approve-doctor`,
+        title: "Complain",
+        url: `${prefix}/complain`,
       },
     ],
   },

@@ -32,9 +32,14 @@ const DialogPage = () => {
 
   const { data: users } = useGetAllUser();
 
+  const [complainName, setComplainName] = useState("");
   const [complainId, setComplainId] = useState("");
+
   const [serviceWorkerId, setServiceWorkerId] = useState("");
+  const [serviceWorkerName, setServiceWorkerName] = useState("");
+
   const [open, setOpen] = useState(false);
+  const [isAssigned, setIsAssigned] = useState(false);
 
   const serviceWorkers = users?.data?.filter(
     (user: any) => user.role === "SERVICE_WORKER",
@@ -52,6 +57,7 @@ const DialogPage = () => {
       },
       {
         onSuccess: (result) => {
+          setIsAssigned(true);
           toast.add({
             title: "Service Worker Assign Successfully",
             description: "Well Done",
@@ -73,8 +79,12 @@ const DialogPage = () => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button type="button" className="cursor-pointer">
-            Assign Service Worker
+          <Button
+            type="button"
+            className="cursor-pointer"
+            disabled={isAssigned}
+          >
+            {isAssigned ? "Completed" : "Assign Service Worker"}
           </Button>
         }
       />
@@ -92,8 +102,15 @@ const DialogPage = () => {
               <Label>Complain</Label>
 
               <Select
-                value={complainId}
-                onValueChange={(value) => setComplainId(value ?? "")}
+                value={complainName}
+                onValueChange={(title: any) => {
+                  const selectedComplain = data?.data?.find(
+                    (payment: any) => payment.title === title,
+                  );
+
+                  setComplainName(title);
+                  setComplainId(selectedComplain?.id ?? "");
+                }}
               >
                 <SelectTrigger className="w-full cursor-pointer">
                   <SelectValue placeholder="Choose Complain" />
@@ -101,7 +118,7 @@ const DialogPage = () => {
 
                 <SelectContent>
                   {data?.data?.map((payment: any) => (
-                    <SelectItem key={payment.id} value={payment.id}>
+                    <SelectItem key={payment.id} value={payment.title}>
                       {payment.title}
                     </SelectItem>
                   ))}
@@ -113,8 +130,15 @@ const DialogPage = () => {
               <Label>Service Worker</Label>
 
               <Select
-                value={serviceWorkerId}
-                onValueChange={(value) => setServiceWorkerId(value ?? "")}
+                value={serviceWorkerName}
+                onValueChange={(name) => {
+                  const selectedWorker = serviceWorkers?.find(
+                    (worker: any) => worker.name === name,
+                  );
+
+                  setServiceWorkerName(name ?? "");
+                  setServiceWorkerId(selectedWorker?.id ?? "");
+                }}
               >
                 <SelectTrigger className="w-full cursor-pointer">
                   <SelectValue placeholder="Choose Service Worker" />
@@ -122,7 +146,7 @@ const DialogPage = () => {
 
                 <SelectContent>
                   {serviceWorkers?.map((worker: any) => (
-                    <SelectItem key={worker.id} value={worker.id}>
+                    <SelectItem key={worker.id} value={worker.name}>
                       {worker.name}
                     </SelectItem>
                   ))}
