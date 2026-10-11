@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,54 +22,110 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 
-const DialogPage = () => {
-  return (
-    <Dialog>
-      <form>
-        <DialogTrigger
-          render={
-            <Button className="cursor-pointer">Assign Service Worker</Button>
-          }
-        />
+import { useGetAllUser } from "@/hooks/user.hook";
+import { useServiceWorkerAssign } from "@/hooks/assign.hook";
+import { useAdminGetAllComplain } from "@/hooks/complain.hook";
+import { toast } from "../ui/toast";
 
-        <DialogContent className="sm:max-w-sm">
+const DialogPage = () => {
+  const { data } = useAdminGetAllComplain();
+
+  const { data: users } = useGetAllUser();
+
+  const [complainId, setComplainId] = useState("");
+  const [serviceWorkerId, setServiceWorkerId] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const serviceWorkers = users?.data?.filter(
+    (user: any) => user.role === "SERVICE_WORKER",
+  );
+
+  const { mutate: serviceWorker, isPending } = useServiceWorkerAssign();
+
+  const handleAssign = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    serviceWorker(
+      {
+        complainId,
+        serviceWorkerId,
+      },
+      {
+        onSuccess: (result) => {
+          toast.add({
+            title: "Service Worker Assign Successfully",
+            description: "Well Done",
+            type: "success",
+          });
+
+          setComplainId("");
+          setServiceWorkerId("");
+          setOpen(false);
+        },
+        onError: (error) => {
+          console.error("Assign Failed:", error);
+        },
+      },
+    );
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger
+        render={
+          <Button type="button" className="cursor-pointer">
+            Assign Service Worker
+          </Button>
+        }
+      />
+
+      <DialogContent className="sm:max-w-sm">
+        <form onSubmit={handleAssign}>
           <DialogHeader>
             <DialogTitle className="py-3 text-center">
               Assign Service Worker
             </DialogTitle>
           </DialogHeader>
 
-          <FieldGroup>
+          <FieldGroup className="py-4">
             <Field>
-              <Label>Select Service Worker</Label>
+              <Label>Complain</Label>
 
-              <Select>
+              <Select
+                value={complainId}
+                onValueChange={(value) => setComplainId(value ?? "")}
+              >
                 <SelectTrigger className="w-full cursor-pointer">
-                  <SelectValue placeholder="Choose a service worker" />
+                  <SelectValue placeholder="Choose Complain" />
                 </SelectTrigger>
 
                 <SelectContent>
-                  <SelectItem value="worker-1">Service Worker 01</SelectItem>
-                  <SelectItem value="worker-2">Service Worker 02</SelectItem>
-                  <SelectItem value="worker-3">Service Worker 03</SelectItem>
+                  {data?.data?.map((payment: any) => (
+                    <SelectItem key={payment.id} value={payment.id}>
+                      {payment.title}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </Field>
 
             <Field>
-              <Label>Select Complaint Category</Label>
+              <Label>Service Worker</Label>
 
-              <Select>
+              <Select
+                value={serviceWorkerId}
+                onValueChange={(value) => setServiceWorkerId(value ?? "")}
+              >
                 <SelectTrigger className="w-full cursor-pointer">
-                  <SelectValue placeholder="Choose a category" />
+                  <SelectValue placeholder="Choose Service Worker" />
                 </SelectTrigger>
 
                 <SelectContent>
-                  <SelectItem value="road">Road Maintenance</SelectItem>
-                  <SelectItem value="lighting">Street Lighting</SelectItem>
-                  <SelectItem value="water">Water Supply</SelectItem>
-                  <SelectItem value="drainage">Drainage</SelectItem>
-                  <SelectItem value="waste">Waste Management</SelectItem>
+                  {serviceWorkers?.map((worker: any) => (
+                    <SelectItem key={worker.id} value={worker.id}>
+                      {worker.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </Field>
@@ -76,18 +134,26 @@ const DialogPage = () => {
           <DialogFooter>
             <DialogClose
               render={
-                <Button className="cursor-pointer" variant="outline">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="cursor-pointer"
+                >
                   Cancel
                 </Button>
               }
             />
 
-            <Button className="cursor-pointer" type="submit">
-              Assign
+            <Button
+              type="submit"
+              disabled={isPending}
+              className="cursor-pointer"
+            >
+              {isPending ? "Assigning..." : "Assign"}
             </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 };
