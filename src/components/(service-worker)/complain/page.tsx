@@ -47,10 +47,10 @@ const ComplainData = () => {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">
-            Assigned Complaints
+            Assigned Complains
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Monitor complaints and their assigned service workers.
+            Monitor complains and their assigned service workers.
           </p>
         </div>
 
@@ -66,7 +66,7 @@ const ComplainData = () => {
             <TableHeader>
               <TableRow className="bg-muted/50">
                 <TableHead className="w-14">#</TableHead>
-                <TableHead>Complaint</TableHead>
+                <TableHead>Complain</TableHead>
                 <TableHead>Location</TableHead>
                 <TableHead>Service Worker</TableHead>
                 <TableHead>Status</TableHead>
@@ -85,7 +85,7 @@ const ComplainData = () => {
                     <TableCell>
                       <div className="min-w-40">
                         <p className="font-semibold">
-                          {item.complain?.title ?? "Untitled Complaint"}
+                          {item.complain?.title ?? "Untitled Complain"}
                         </p>
                         <p className="mt-1 max-w-56 truncate text-xs text-muted-foreground">
                           {item.complain?.description ?? "No description"}
@@ -156,7 +156,7 @@ const ComplainData = () => {
                   <TableCell colSpan={6} className="h-32 text-center">
                     <p className="font-medium">No assignments found</p>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Assigned complaints will appear here.
+                      Assigned complains will appear here.
                     </p>
                   </TableCell>
                 </TableRow>
