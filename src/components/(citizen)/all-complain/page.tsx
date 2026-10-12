@@ -32,7 +32,7 @@ const AllComplainCard = () => {
 
   const { mutate: deleteData, isPending: isDeleting } = useDeleteComplain();
 
-  // Which complaint should be deleted
+  // Which complain should be deleted
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   if (isLoading) {
@@ -51,9 +51,7 @@ const AllComplainCard = () => {
     return (
       <div className="flex min-h-[300px] items-center justify-center">
         {" "}
-        <p className="text-sm text-destructive">
-          Failed to load complaints.{" "}
-        </p>{" "}
+        <p className="text-sm text-destructive">Failed to load s. </p>{" "}
       </div>
     );
   }
@@ -201,7 +199,7 @@ const AllComplainCard = () => {
                     colSpan={7}
                     className="h-32 text-center text-muted-foreground"
                   >
-                    No complaints found.
+                    No complains found.
                   </TableCell>
                 </TableRow>
               )}

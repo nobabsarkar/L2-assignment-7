@@ -2,7 +2,7 @@
 
 import { CalendarDays, MapPin, UserRound } from "lucide-react";
 
-import { useAssignData } from "@/hooks/assign.hook";
+import { useAssignData, useUpdateAssignStatus } from "@/hooks/assign.hook";
 import {
   Table,
   TableBody,
@@ -12,9 +12,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { toast } from "@/components/ui/toast";
 
 const ComplainData = () => {
   const { data, isPending, isError } = useAssignData();
+
+  const { mutate: updateStatus, isPending: isUpdating } =
+    useUpdateAssignStatus();
 
   const assignments = data?.data ?? [];
 
@@ -41,6 +52,26 @@ const ComplainData = () => {
     );
   }
 
+  const handleStatusChange = (assignId: string) => {
+    updateStatus(
+      {
+        assignId,
+        payload: {
+          status: "IN_PROGRESS",
+        },
+      },
+      {
+        onSuccess: () => {
+          toast.add({
+            title: "Status Updated",
+            description: "Complain status changed to In Progress.",
+            type: "success",
+          });
+        },
+      },
+    );
+  };
+
   return (
     <div className="space-y-6 p-4 md:p-6">
       {/* Header */}
@@ -50,7 +81,7 @@ const ComplainData = () => {
             Assigned Complains
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Monitor complains and their assigned service workers.
+            Monitor complains and update their progress.
           </p>
         </div>
 
@@ -107,6 +138,7 @@ const ComplainData = () => {
                         <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/10">
                           <UserRound className="size-4 text-primary" />
                         </div>
+
                         <div>
                           <p className="font-medium">
                             {item.serviceWorker?.name ?? "Not assigned"}
@@ -119,18 +151,89 @@ const ComplainData = () => {
                     </TableCell>
 
                     <TableCell>
-                      <Badge
-                        variant={
-                          item.status === "COMPLETED"
-                            ? "default"
-                            : item.status === "PENDING"
-                              ? "secondary"
-                              : "outline"
-                        }
-                      >
-                        {item.status ?? "UNKNOWN"}
-                      </Badge>
+                      {item.status === "PENDING" ? (
+                        <Select
+                          defaultValue="PENDING"
+                          disabled={isUpdating}
+                          onValueChange={(value) => {
+                            if (value === "IN_PROGRESS") {
+                              handleStatusChange(item.id);
+                            }
+                          }}
+                        >
+                          <SelectTrigger className="w-40 cursor-pointer">
+                            <SelectValue placeholder="Select status" />
+                          </SelectTrigger>
+
+                          <SelectContent>
+                            <SelectItem value="PENDING" disabled>
+                              Pending
+                            </SelectItem>
+
+                            <SelectItem value="IN_PROGRESS">
+                              {isUpdating ? "Updating..." : "In Progress"}
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <Badge
+                          variant={
+                            item.status === "COMPLETED"
+                              ? "default"
+                              : item.status === "IN_PROGRESS"
+                                ? "outline"
+                                : "secondary"
+                          }
+                        >
+                          {item.status ?? "UNKNOWN"}
+                        </Badge>
+                      )}
                     </TableCell>
+                    {/* <TableCell>
+                      {item.status === "PENDING" ? (
+                        <Select
+                          defaultValue="PENDING"
+                          disabled={isUpdating}
+                          onValueChange={(value) => {
+                            if (value === "IN_PROGRESS") {
+                              handleStatusChange(item.id);
+                            }
+                          }}
+                        >
+                          <SelectTrigger className="w-40 cursor-pointer">
+                            <SelectValue placeholder="Select status" />
+                          </SelectTrigger>
+
+                          <SelectContent>
+                            <SelectItem
+                              value="PENDING"
+                              className="cursor-pointer"
+                            >
+                              Pending
+                            </SelectItem>
+
+                            <SelectItem
+                              value="IN_PROGRESS"
+                              className="cursor-pointer"
+                            >
+                              {isUpdating ? "Updating..." : "In Progress"}
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <Badge
+                          variant={
+                            item.status === "COMPLETED"
+                              ? "default"
+                              : item.status === "IN_PROGRESS"
+                                ? "outline"
+                                : "secondary"
+                          }
+                        >
+                          {item.status ?? "UNKNOWN"}
+                        </Badge>
+                      )}
+                    </TableCell> */}
 
                     <TableCell>
                       <div className="flex min-w-32 items-center gap-2 text-sm text-muted-foreground">

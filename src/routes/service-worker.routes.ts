@@ -13,6 +13,10 @@ export const serviceWorkerRoutes = [
         title: "Complain",
         url: `${prefix}/complain`,
       },
+      {
+        title: "Proof Complain",
+        url: `${prefix}/proof-complain`,
+      },
     ],
   },
 ];

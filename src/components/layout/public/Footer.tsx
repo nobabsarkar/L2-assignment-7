@@ -27,7 +27,7 @@ const Footer = () => {
             </Link>
 
             <p className="max-w-xs text-sm leading-6 text-muted-foreground">
-              A smarter way to report city problems, track complaints, and
+              A smarter way to report city problems, track complains, and
               connect citizens with essential public services.
             </p>
           </div>
@@ -76,10 +76,10 @@ const Footer = () => {
             <h3 className="mb-4 font-semibold">Our Services</h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li>Road Damage Reporting</li>
-              <li>Street Light Complaints</li>
+              <li>Street Light Complains</li>
               <li>Water Supply Issues</li>
               <li>Waste Management</li>
-              <li>Complaint Tracking</li>
+              <li>Complain Tracking</li>
             </ul>
           </div>
 
