@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+CityCare
 
-## Getting Started
+CityCare – City Complaint and Service Management Platform
 
-First, run the development server:
+### About the Project
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+CityCare is a full-stack City Complain and Service Management Platform that helps citizens report and track city complains.
+It includes complain management, role-based access, service worker assignments, and online payments.
+The platform streamlines civic issue reporting and service management.
+Built with Next.js, TypeScript, Node.js, Express.js, Prisma, PostgreSQL, and Redis.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Project Overview — CityCare
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- A full-stack city complain and service management platform for citizens.
+- City complain reporting and status tracking.
+- Role-based access for citizens, service workers, and administrators.
+- Service worker assignments and work completion tracking.
+- Online payment integration with SSLCommerz.
+- Complain management and proof of completed work.
+- **Technologies:** Technologies: Next.js, TypeScript, Node.js, Express.js, PostgreSQL, Prisma, Redis, Tailwind CSS.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Key Features
 
-## Learn More
+- **Authentication & Authorization:** Secure login and role-based access control.
+- **City Service Management:** Manage city service requests and track their statuses.
+- **Service Worker Assignment:** Assign service workers to approved service requests.
+- **Role-Based Dashboards:** Dedicated dashboards for citizens, service workers, and administrators.
+- **Online Payments:** Payment integration with SSLCommerz.
+- **Work Tracking:** Track service progress and completion status.
+- **Work Completion Proof:** Upload images as proof of completed services.
 
-To learn more about Next.js, take a look at the following resources:
+### Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Frontend:** Next.js, React, TypeScript
+- **Styling:** Tailwind CSS, shadcn/ui
+- **Backend:** Node.js, Express.js, TypeScript
+- **Database:** PostgreSQL
+- **ORM:** Prisma
+- **Caching:** Redis
+- **Authentication:** JWT, HTTP-only Cookies
+- **Payment Gateway:** SSLCommerz
+- **Image Storage:** Cloudinary
+- **Tools & Deployment:** Git, GitHub, Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Contact & Project Links
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Email:** nobabsarkar2020@gmail.com
+- **Live Demo:** https://level2-assignment-7.vercel.app/
+- **GitHub Repository:** Add your CityCare repository URL here.
