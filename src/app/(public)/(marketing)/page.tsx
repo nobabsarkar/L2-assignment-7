@@ -1,52 +1,17 @@
 "use client";
 
-import {
-  ArrowRight,
-  CheckCircle2,
-  CircleAlert,
-  ClipboardCheck,
-  ClipboardList,
-  Clock3,
-  Droplets,
-  FileText,
-  Lightbulb,
-  MapPin,
-  ShieldCheck,
-  Trash2,
-  TrendingUp,
-  UserRoundCheck,
-  Users,
-} from "lucide-react";
-import Link from "next/link";
-
-import { Construction, Waves } from "lucide-react";
 import HeroSection from "@/components/Home/HeroSection";
-
-const services = [
-  {
-    icon: Lightbulb,
-    label: "Street Light",
-    position: "left-[3%] top-[18%]",
-    delay: 0,
-  },
-  {
-    icon: Droplets,
-    label: "Water Supply",
-    position: "right-[3%] top-[25%]",
-    delay: 0.3,
-  },
-  {
-    icon: Trash2,
-    label: "Waste Management",
-    position: "left-[8%] bottom-[16%]",
-    delay: 0.6,
-  },
-];
+import HowItIsWorks from "@/components/Home/HowItIsWork";
+import KeyFeatures from "@/components/Home/KeyFeatures";
+import OurService from "@/components/Home/OurService";
 
 const HomePage = () => {
   return (
     <main>
       <HeroSection />
+      <KeyFeatures />
+      <HowItIsWorks />
+      <OurService />
 
       {/* our service */}
       {/* <section id="services" className="px-4  sm:px-6  lg:px-8">
@@ -243,12 +208,9 @@ const HomePage = () => {
             </p>
           </div>
 
-   
           <div className="relative grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
-         
             <div className="absolute left-[22%] right-[22%] top-12 hidden border-t-2 border-dashed border-primary/20 md:block" />
 
-     
             <div className="group relative rounded-2xl border bg-card p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl sm:p-8">
               <div className="relative mx-auto mb-7 flex size-24 items-center justify-center rounded-3xl bg-sky-500/10 transition-transform duration-300 group-hover:scale-105">
                 <FileText className="size-11 text-sky-500" />
@@ -273,7 +235,6 @@ const HomePage = () => {
               </div>
             </div>
 
-      
             <div className="group relative rounded-2xl border bg-card p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl sm:p-8">
               <div className="relative mx-auto mb-7 flex size-24 items-center justify-center rounded-3xl bg-violet-500/10 transition-transform duration-300 group-hover:scale-105">
                 <ClipboardCheck className="size-11 text-violet-500" />
@@ -299,7 +260,6 @@ const HomePage = () => {
               </div>
             </div>
 
-    
             <div className="group relative rounded-2xl border bg-card p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl sm:p-8">
               <div className="relative mx-auto mb-7 flex size-24 items-center justify-center rounded-3xl bg-emerald-500/10 transition-transform duration-300 group-hover:scale-105">
                 <CheckCircle2 className="size-11 text-emerald-500" />
@@ -326,7 +286,6 @@ const HomePage = () => {
             </div>
           </div>
 
-    
           <div className="relative mt-12 overflow-hidden rounded-3xl border bg-muted/30 px-6 py-8 sm:px-10 sm:py-10">
             <div className="relative flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
               <div className="max-w-xl">
