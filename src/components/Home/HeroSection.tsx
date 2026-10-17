@@ -54,7 +54,7 @@ const HeroSection = () => {
   return (
     <section
       id="how-it-works"
-      className="relative isolate overflow-hidden bg-background"
+      className="relative isolate overflow-hidden py-15 bg-background"
     >
       {/* Background decoration */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">

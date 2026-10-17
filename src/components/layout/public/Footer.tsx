@@ -116,11 +116,11 @@ export default function Footer() {
 
             <div className="mt-5 space-y-4">
               <a
-                href="mailto:support@citycare.com"
+                href="nobabsarkar2020@gmail.com"
                 className="group flex items-start gap-3 text-sm text-muted-foreground transition-colors hover:text-primary"
               >
                 <Mail className="mt-0.5 size-4 shrink-0 text-primary" />
-                <span className="break-all">support@citycare.com</span>
+                <span className="break-all">nobabsarkar2020@gmail.com</span>
               </a>
 
               <div className="flex items-start gap-3 text-sm text-muted-foreground">
