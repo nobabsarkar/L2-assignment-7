@@ -24,3 +24,10 @@ export function userLogout() {
 export function getMe() {
   return apiClient("/auth/me");
 }
+
+export function updateCurrentUserProfile(payload: FormData) {
+  return apiClient("/auth/update-user-profile", {
+    method: "PATCH",
+    body: payload,
+  });
+}

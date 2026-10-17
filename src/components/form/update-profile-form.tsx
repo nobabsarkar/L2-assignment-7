@@ -1,36 +1,104 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useForm } from "@tanstack/react-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FileText, ImagePlus, X } from "lucide-react";
-import { FieldLabel } from "../ui/field";
-import { useForm } from "@tanstack/react-form";
-import { Field } from "@/components/ui/field";
-import { ProfileValues } from "@/types/updateUser.type";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { useGetMe, useUpdateCurrentUserProfile } from "@/hooks/auth.hook";
+import Image from "next/image";
+import { toast } from "../ui/toast";
+import { Spinner } from "../ui/spinner";
 
-const UpdateProfileForm = ({
-  initialValues,
-}: {
-  initialValues: ProfileValues;
-}) => {
+const UpdateProfileForm = () => {
+  const { data, isLoading } = useGetMe();
+
+  const { mutate: updateProfile, isPending } = useUpdateCurrentUserProfile();
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+
   const form = useForm({
     defaultValues: {
-      name: initialValues?.name ?? "",
-      email: initialValues?.email ?? "",
-      imageUrl: initialValues?.imageUrl || null,
+      name: "",
+      email: "",
     },
 
-    onSubmit: ({ value }) => {
-      console.log(value);
+    onSubmit: async ({ value }) => {
+      const payload = {
+        name: value?.name,
+        email: value?.email,
+        file: selectedFile,
+      };
+
+      console.log(payload);
+
+      updateProfile(payload, {
+        onSuccess: () => {
+          toast.add({
+            title: "Update Successfull",
+            description: "Profile Updated Successfull",
+            type: "success",
+          });
+        },
+        onError: (error) => {
+          toast.add({
+            title: "Update Failed",
+            description: error?.message || "Failed to update your profile",
+            type: "error",
+          });
+        },
+      });
     },
   });
 
+  useEffect(() => {
+    const user = data?.data;
+
+    if (!user) return;
+
+    form.reset({
+      name: user.name ?? "",
+      email: user.email ?? "",
+    });
+
+    setPreviewUrl(user.imageUrl ?? "");
+    setSelectedFile(null);
+  }, [data, form]);
+
+  useEffect(() => {
+    if (!selectedFile) return;
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreviewUrl(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  useEffect(() => {
+    if (data?.data) {
+      form.setFieldValue("name", data?.data?.name);
+      form.setFieldValue("email", data?.data?.email);
+    }
+  }, [data, form]);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center gap-2 text-muted-foreground">
+        <Spinner className="size-5" />
+        <span>Loading...</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="py-20">
+    <div className="px-4 py-12 sm:py-20">
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           form.handleSubmit();
         }}
         className="mx-auto w-full max-w-lg space-y-5 rounded-xl border bg-card p-6"
@@ -71,78 +139,107 @@ const UpdateProfileForm = ({
           )}
         </form.Field>
 
-        <form.Field name="imageUrl">
-          {(field) => {
-            const file = field.state.value;
+        <Field>
+          <FieldLabel>Profile Picture</FieldLabel>
 
-            return (
-              <Field>
-                <FieldLabel>Profile Picture</FieldLabel>
+          <div className="rounded-xl border border-dashed bg-muted/20 p-5">
+            <div className="flex flex-col items-center gap-3 text-center">
+              {previewUrl ? (
+                <Image
+                  src={previewUrl}
+                  height={200}
+                  width={200}
+                  alt="Profile preview"
+                  className="size-24 rounded-full border object-cover"
+                />
+              ) : (
+                <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
+                  <ImagePlus className="size-6 text-primary" />
+                </div>
+              )}
 
-                <div className="rounded-xl border border-dashed bg-muted/20 p-5">
-                  <div className="flex flex-col items-center gap-3 text-center">
-                    <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
-                      <ImagePlus className="size-6 text-primary" />
-                    </div>
+              <p className="text-sm text-muted-foreground">
+                Choose a new profile image (PNG or JPG).
+              </p>
 
-                    <div>
-                      <p className="text-sm font-medium">Upload</p>
-                    </div>
+              <label htmlFor="profile-picture">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="cursor-pointer"
+                  onClick={() =>
+                    document.getElementById("profile-picture")?.click()
+                  }
+                >
+                  <ImagePlus className="size-4" />
+                  Choose Image
+                </Button>
+              </label>
 
-                    <label htmlFor="profile-picture" className="cursor-pointer">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className="pointer-events-none"
-                      >
-                        <ImagePlus className="size-4" />
-                        Choose Image
-                      </Button>
-                    </label>
+              <input
+                id="profile-picture"
+                type="file"
+                accept="image/png,image/jpeg"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
 
-                    <input
-                      id="profile-picture"
-                      type="file"
-                      accept="image/png,image/jpeg,image/jpg"
-                      className="sr-only"
-                      onChange={(e) => {
-                        const selectedFile = e.target.files?.[0];
+                  if (!file) return;
 
-                        if (!selectedFile) return;
+                  if (!["image/png", "image/jpeg"].includes(file.type)) {
+                    alert("Please select a PNG or JPG image.");
+                    e.target.value = "";
+                    return;
+                  }
 
-                        field.handleChange(selectedFile);
-                        field.handleBlur();
-                        e.target.value = "";
-                      }}
-                    />
+                  if (file.size > 5 * 1024 * 1024) {
+                    alert("Image size must be less than 5 MB.");
+                    e.target.value = "";
+                    return;
+                  }
+
+                  setSelectedFile(file);
+                  e.target.value = "";
+                }}
+              />
+
+              {selectedFile && (
+                <div className="flex w-full items-center justify-between gap-3 rounded-lg border bg-background px-3 py-2">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <FileText className="size-4 shrink-0 text-primary" />
+                    <span className="truncate text-sm">
+                      {selectedFile.name}
+                    </span>
                   </div>
 
-                  {file && (
-                    <div className="mt-5 flex items-center justify-between gap-3 rounded-lg border bg-background px-3 py-2">
-                      <div className="flex min-w-0 items-center gap-2">
-                        <FileText className="size-4 shrink-0 text-primary" />
-
-                        <span className="truncate text-sm">{file.name}</span>
-                      </div>
-
-                      <button
-                        type="button"
-                        aria-label="Remove profile picture"
-                        onClick={() => field.handleChange(null)}
-                        className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
-                      >
-                        <X className="size-4" />
-                      </button>
-                    </div>
-                  )}
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Remove selected image"
+                    onClick={() => setSelectedFile(null)}
+                  >
+                    <X className="size-4" />
+                  </Button>
                 </div>
-              </Field>
-            );
-          }}
-        </form.Field>
+              )}
+            </div>
+          </div>
+        </Field>
 
-        <Button type="submit" className="w-full cursor-pointer">
-          Update Profile
+        <Button
+          type="submit"
+          disabled={isPending}
+          className="w-full cursor-pointer"
+        >
+          {isPending ? (
+            <>
+              <Spinner className="mr-2 size-4 animate-spin" />
+              Updating Profile...
+            </>
+          ) : (
+            "Update Profile"
+          )}
         </Button>
       </form>
     </div>
