@@ -8,6 +8,7 @@ import {
   singleComplain,
   updateComplain,
 } from "@/api/complain.api";
+import { ComplainQuery } from "@/components/(admin)/all-complain/page";
 import { TUpdateComplainPayload } from "@/types/complain.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -73,10 +74,12 @@ export function useDeleteComplain() {
   });
 }
 
-export function useAdminGetAllComplain() {
+export function useAdminGetAllComplain(params: ComplainQuery) {
   return useQuery({
-    queryKey: ["complain"],
-    queryFn: adminGetAllComplain,
+    // queryKey: ["complain"],
+    // queryKey: ["admin-complains", params],
+    queryKey: ["complain", params],
+    queryFn: () => adminGetAllComplain(params),
     retry: false,
   });
 }

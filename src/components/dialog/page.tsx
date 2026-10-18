@@ -117,7 +117,7 @@ const DialogPage = () => {
                 </SelectTrigger>
 
                 <SelectContent>
-                  {data?.data?.map((payment: any) => (
+                  {data?.data?.data?.map((payment: any) => (
                     <SelectItem key={payment.id} value={payment.title}>
                       {payment.title}
                     </SelectItem>

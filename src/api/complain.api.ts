@@ -1,3 +1,4 @@
+import { ComplainQuery } from "@/components/(admin)/all-complain/page";
 import apiClient from "@/lib/apiClient";
 import {
   ComplainPayload,
@@ -40,8 +41,16 @@ export function deleteComplain(id: string) {
   });
 }
 
-export function adminGetAllComplain() {
-  return apiClient("/complains/admin-get-all-complains");
+export function adminGetAllComplain(params: ComplainQuery) {
+  const query = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== "" && value !== undefined && value !== null) {
+      query.set(key, String(value));
+    }
+  });
+
+  return apiClient(`/complains/admin-get-all-complains?${query.toString()}`);
 }
 
 export function adminGetSingleData(id: string) {
