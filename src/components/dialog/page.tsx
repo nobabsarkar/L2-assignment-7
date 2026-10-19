@@ -27,8 +27,42 @@ import { useServiceWorkerAssign } from "@/hooks/assign.hook";
 import { useAdminGetAllComplain } from "@/hooks/complain.hook";
 import { toast } from "../ui/toast";
 
+const PAGE_SIZE = 10;
+
+export type ComplainQuery = {
+  searchTerm: string;
+  status: string;
+  location: string;
+  minPrice: string;
+  maxPrice: string;
+  sortBy: string;
+  sortOrder: "asc" | "desc";
+  page: number;
+  limit: number;
+};
+
+const initialFilters = {
+  searchTerm: "",
+  location: "",
+  status: "ALL",
+  minPrice: "",
+  maxPrice: "",
+  sortBy: "createdAt",
+  sortOrder: "desc" as "asc" | "desc",
+};
+
 const DialogPage = () => {
-  const { data } = useAdminGetAllComplain();
+  const [filters, setFilters] = useState(initialFilters);
+  const [page, setPage] = useState(1);
+
+  const query: ComplainQuery = {
+    ...filters,
+    status: filters.status === "ALL" ? "" : filters.status,
+    page,
+    limit: PAGE_SIZE,
+  };
+
+  const { data } = useAdminGetAllComplain(query);
 
   const { data: users } = useGetAllUser();
 
@@ -104,7 +138,7 @@ const DialogPage = () => {
               <Select
                 value={complainName}
                 onValueChange={(title: any) => {
-                  const selectedComplain = data?.data?.find(
+                  const selectedComplain = data?.data?.data?.find(
                     (payment: any) => payment.title === title,
                   );
 

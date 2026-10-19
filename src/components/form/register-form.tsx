@@ -5,7 +5,7 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { useForm } from "@tanstack/react-form";
 import { Button } from "../ui/button";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useRegistration } from "@/hooks/auth.hook";
@@ -22,7 +22,7 @@ const RegisterForm = () => {
     password: "",
   };
 
-  const { mutate: registration } = useRegistration();
+  const { mutate: registration, isPending } = useRegistration();
 
   const form = useForm({
     defaultValues,
@@ -186,8 +186,19 @@ const RegisterForm = () => {
             }}
           </form.Field>
 
-          <Button className="cursor-pointer" type="submit">
-            Register
+          <Button
+            className="cursor-pointer outline"
+            type="submit"
+            disabled={isPending}
+          >
+            {isPending ? (
+              <>
+                <Loader2 className="animate-spin" />
+                Registering...
+              </>
+            ) : (
+              "Register"
+            )}
           </Button>
         </FieldGroup>
       </form>

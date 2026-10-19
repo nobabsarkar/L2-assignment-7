@@ -34,7 +34,7 @@ export function completeAssignWork(
 ) {
   const formData = new FormData();
 
-  formData.append("data", JSON.stringify(payload.data));
+  formData.append("proofDescription", payload.proofDescription);
   formData.append("proofImage", payload.proofImage);
 
   return apiClient(`/assigns/${assignId}/complete-work`, {

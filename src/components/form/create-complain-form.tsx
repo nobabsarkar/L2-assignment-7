@@ -304,20 +304,6 @@ const CreateComplainForm = () => {
                               accept="image/*"
                               className="sr-only"
                               name={field.name}
-                              //   onChange={(e) => {
-                              //     const incoming = Array.from(
-                              //       e.target.files ?? [],
-                              //     );
-
-                              //     if (incoming.length === 0) {
-                              //       return;
-                              //     }
-
-                              //     field.handleChange([...files, ...incoming]);
-
-                              //     field.handleBlur();
-                              //     e.target.value = "";
-                              //   }}
                               onChange={(e) => {
                                 const file = e.target.files?.[0];
 

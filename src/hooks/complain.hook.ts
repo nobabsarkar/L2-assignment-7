@@ -76,8 +76,6 @@ export function useDeleteComplain() {
 
 export function useAdminGetAllComplain(params: ComplainQuery) {
   return useQuery({
-    // queryKey: ["complain"],
-    // queryKey: ["admin-complains", params],
     queryKey: ["complain", params],
     queryFn: () => adminGetAllComplain(params),
     retry: false,

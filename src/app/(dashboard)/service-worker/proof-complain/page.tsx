@@ -1,11 +1,9 @@
-// import ProofComplainData from "@/components/(service-worker)/proof-complain-data/page";
-
-import ProofComplainData from "@/components/(citizen)/proof-complain-data/page";
+import ProofComplainForm from "@/components/form/proof-complain-work.form";
 
 const ProofComplain = () => {
   return (
     <div>
-      <ProofComplainData />
+      <ProofComplainForm />
     </div>
   );
 };

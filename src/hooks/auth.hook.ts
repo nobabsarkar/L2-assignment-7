@@ -50,7 +50,6 @@ export function useUpdateCurrentUserProfile() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    // mutationFn: ({ name, email, file }: IUpdateProfilePayload) => {
     mutationFn: ({ name, email, file }: any) => {
       const formData = new FormData();
 

@@ -32,7 +32,6 @@ const AllComplainCard = () => {
 
   const { mutate: deleteData, isPending: isDeleting } = useDeleteComplain();
 
-  // Which complain should be deleted
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   if (isLoading) {

@@ -222,8 +222,10 @@ const ProofComplainData = () => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      <img
-                        src={complain.proofImageUrl}
+                      <Image
+                        src={complain?.proofImageUrl}
+                        height={400}
+                        width={400}
                         alt="Work completion proof"
                         className="mt-3 h-56 w-full rounded-xl border object-cover transition-opacity hover:opacity-90"
                       />
@@ -234,7 +236,7 @@ const ProofComplainData = () => {
                         Work Description
                       </p>
                       <p className="mt-1 text-sm leading-6">
-                        {complain.proofDescription ??
+                        {complain?.proofDescription ??
                           "No proof description available"}
                       </p>
                     </div>

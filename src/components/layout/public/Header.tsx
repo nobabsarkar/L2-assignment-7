@@ -183,10 +183,10 @@ const Header = () => {
               </Button>
 
               <Button
-                variant="default"
+                variant="outline"
                 render={<Link href="/register" />}
                 nativeButton={false}
-                className="cursor-pointer"
+                className="cursor-pointer "
               >
                 Register
               </Button>

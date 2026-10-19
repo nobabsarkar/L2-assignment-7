@@ -22,22 +22,12 @@ import {
 import { toast } from "@/components/ui/toast";
 
 const ComplainData = () => {
-  const { data, isPending, isError } = useAssignData();
+  const { data, isError } = useAssignData();
 
   const { mutate: updateStatus, isPending: isUpdating } =
     useUpdateAssignStatus();
 
   const assignments = data?.data ?? [];
-
-  if (isPending) {
-    return (
-      <div className="flex min-h-60 items-center justify-center">
-        <p className="animate-pulse text-sm text-muted-foreground">
-          Loading assignment data...
-        </p>
-      </div>
-    );
-  }
 
   if (isError) {
     return (

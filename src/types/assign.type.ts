@@ -3,8 +3,7 @@ export type UpdateAssignStatusPayload = {
 };
 
 export interface CompleteWorkPayload {
-  data: {
-    proofDescription: string;
-  };
+  proofDescription: string;
+
   proofImage: File;
 }

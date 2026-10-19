@@ -97,8 +97,6 @@ const AdminGetAllComplain = () => {
 
   const { mutate: updateStatus, isPending } = useAdminUpdateStatus();
 
-  // Supports the paginated response:
-  // { data: { data: [...], meta: {...} } }
   const response = data?.data?.data;
 
   const complains: ComplainPayload[] = Array.isArray(response) ? response : [];
@@ -299,7 +297,6 @@ const AdminGetAllComplain = () => {
 
             <Select
               value={filters.sortBy}
-              // onValueChange={(value) => updateFilter("sortBy", value)}
               onValueChange={(value) => {
                 if (value !== null) {
                   updateFilter("sortBy", value);
